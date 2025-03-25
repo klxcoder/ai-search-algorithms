@@ -32,8 +32,7 @@ def get_flags(arr):
     return flags
 
 def get_adjacent_cells(cell, flags, arr):
-    row = cell[0]
-    col = cell[1]
+    row, col = cell
     n_row = len(flags)
     n_col = len(flags[0])
     adjacent_cells = []
