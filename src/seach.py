@@ -13,7 +13,7 @@ def print_arr(arr):
     for r in range(row):
         print(arr[r])
 
-def show_arr(arr, start, end):
+def show_arr(arr, start, end, path):
     n_row = len(arr)
     n_col = len(arr[0])
     maze = []
@@ -27,6 +27,11 @@ def show_arr(arr, start, end):
         maze.append(row)
     plt.figure(figsize=(8, 8))
     plt.imshow(maze, cmap='gray_r')
+
+    if path:
+        path_x, path_y = zip(*path)
+        plt.plot(path_y, path_x, color='red', linewidth=3)  # Shortest path in red
+
     plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
     plt.axis('off')
     plt.show()
@@ -66,6 +71,7 @@ def get_adjacent_cells(cell, flags, arr):
 
 def backtrack(cell, start, back, arr):
     path = []
+    save_cell = cell
     while cell != start:
         path.append(cell)
         cell = back[cell]
@@ -73,6 +79,9 @@ def backtrack(cell, start, back, arr):
     for p in path:
         arr[p[0]][p[1]] = '*'
     print_arr(arr)
+    path.insert(0, save_cell)
+    path.append(start)
+    return path
 
 def find_shortest_bfs_path(arr, start):
     flags = get_flags(arr)
@@ -82,8 +91,8 @@ def find_shortest_bfs_path(arr, start):
         first = frontier.pop(0)
         flags[first[0]][first[1]] = '1'
         if arr[first[0]][first[1]] == 'B':
-            backtrack(first, start, back, arr)
-            show_arr(arr, start, first)
+            path = backtrack(first, start, back, arr)
+            show_arr(arr, start, first, path)
             break
         adjacent_cells = get_adjacent_cells(first, flags, arr)
         frontier += adjacent_cells
