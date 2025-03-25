@@ -14,7 +14,19 @@ def print_arr(arr):
         print(arr[r])
 
 def show_arr(arr):
+    n_row = len(arr)
+    n_col = len(arr[0])
+    maze = []
+    for r in range(n_row):
+        row = []
+        for c in range(n_col):
+            if arr[r][c] == '#':
+                row.append(1)
+            else:
+                row.append(0)
+        maze.append(row)
     plt.figure(figsize=(8, 8))
+    plt.imshow(maze, cmap='gray_r')
     plt.axis('off')
     plt.show()
 
