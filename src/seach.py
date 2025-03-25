@@ -2,7 +2,8 @@ def read_arr(path):
     arr = []
     with open(path, 'r') as file:
         for line in file:
-            arr.append(line.strip()) # `.strip()` removes leading/trailing spaces and newlines
+            line = line.rstrip('\n') # removes only the trailing newline
+            arr.append(line) 
     return arr
 
 if __name__ == "__main__":
