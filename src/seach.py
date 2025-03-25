@@ -6,6 +6,11 @@ def read_arr(path):
             arr.append(line) 
     return arr
 
+def print_arr(arr):
+    row = len(arr)
+    for r in range(row):
+        print(arr[r])
+
 def find_start(arr):
     row = len(arr)
     col = len(arr[0])
@@ -17,6 +22,6 @@ def find_start(arr):
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
-    print(arr)
+    print_arr(arr)
     start = find_start(arr)
     print(start)
