@@ -45,16 +45,17 @@ def get_adjacent_cells(cell, flags, arr):
     return adjacent_cells
 
 def find_shortest_bfs_path(arr, start):
-    row = len(arr)
-    col = len(arr[0])
     flags = get_flags(arr)
     frontier = [start]
-    flags[start[0]][start[1]] = '1'
-    cost = 0
     while len(frontier) != 0:
         first = frontier.pop(0)
+        flags[first[0]][first[1]] = '1'
+        if arr[first[0]][first[1]] == 'B':
+            print('found B')
+            break
         adjacent_cells = get_adjacent_cells(first, flags, arr)
         print(first, '->', adjacent_cells)
+        frontier += adjacent_cells
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
