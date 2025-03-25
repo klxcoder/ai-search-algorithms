@@ -34,18 +34,16 @@ def get_flags(arr):
 def find_shortest_bfs_path(arr, start):
     row = len(arr)
     col = len(arr[0])
+    flags = get_flags(arr)
     frontier = [start]
+    flags[start[0]][start[1]] = '1'
     cost = 0
-    while True:
-        first = frontier.pop(0)
-
+    print_arr(flags)
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
     print_arr(arr)
     start = find_start(arr)
     print(start)
-    flags = get_flags(arr)
-    print_arr(flags)
-    shortest_bfs_path = find_shortest_bfs_path(arr)
+    shortest_bfs_path = find_shortest_bfs_path(arr, start)
     print(shortest_bfs_path)
