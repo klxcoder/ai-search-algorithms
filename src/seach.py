@@ -62,11 +62,9 @@ def find_shortest_bfs_path(arr, start):
         first = frontier.pop(0)
         flags[first[0]][first[1]] = '1'
         if arr[first[0]][first[1]] == 'B':
-            print('found B')
             backtrack(first, start, back, arr)
             break
         adjacent_cells = get_adjacent_cells(first, flags, arr)
-        print(first, '->', adjacent_cells)
         frontier += adjacent_cells
         for cell in adjacent_cells:
             back[cell] = first
@@ -75,5 +73,5 @@ if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
     print_arr(arr)
     start = find_start(arr)
-    shortest_bfs_path = find_shortest_bfs_path(arr, start)
-    print(shortest_bfs_path)
+    print('-'*5*len(arr[0]))
+    find_shortest_bfs_path(arr, start)
