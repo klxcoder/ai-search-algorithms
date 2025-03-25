@@ -3,7 +3,7 @@ def read_arr(path):
     with open(path, 'r') as file:
         for line in file:
             line = line.rstrip('\n') # removes only the trailing newline
-            arr.append(line) 
+            arr.append(list(line))
     return arr
 
 def print_arr(arr):
@@ -27,7 +27,7 @@ def get_flags(arr):
     for r in range(n_row):
         row = []
         for c in range(n_col):
-            row.append(False)
+            row.append('0')
         flags.append(row)
     return flags
 
