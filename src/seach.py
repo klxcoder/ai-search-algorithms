@@ -38,7 +38,9 @@ def find_shortest_bfs_path(arr, start):
     frontier = [start]
     flags[start[0]][start[1]] = '1'
     cost = 0
-    print_arr(flags)
+    while len(frontier) != 0:
+        first = frontier.pop(0)
+        print('Will explore from ', first)
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
