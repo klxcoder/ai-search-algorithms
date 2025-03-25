@@ -44,18 +44,32 @@ def get_adjacent_cells(cell, flags, arr):
                 adjacent_cells.append((new_row, new_col))
     return adjacent_cells
 
+def backtrack(cell, start, back, arr):
+    path = []
+    while cell != start:
+        path.append(cell)
+        cell = back[cell]
+    path.pop(0)
+    for p in path:
+        arr[p[0]][p[1]] = '*'
+    print_arr(arr)
+
 def find_shortest_bfs_path(arr, start):
     flags = get_flags(arr)
     frontier = [start]
+    back = {}
     while len(frontier) != 0:
         first = frontier.pop(0)
         flags[first[0]][first[1]] = '1'
         if arr[first[0]][first[1]] == 'B':
             print('found B')
+            backtrack(first, start, back, arr)
             break
         adjacent_cells = get_adjacent_cells(first, flags, arr)
         print(first, '->', adjacent_cells)
         frontier += adjacent_cells
+        for cell in adjacent_cells:
+            back[cell] = first
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
