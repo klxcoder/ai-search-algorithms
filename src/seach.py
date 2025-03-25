@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 def read_arr(path):
     arr = []
     with open(path, 'r') as file:
@@ -10,6 +12,11 @@ def print_arr(arr):
     row = len(arr)
     for r in range(row):
         print(arr[r])
+
+def show_arr(arr):
+    plt.figure(figsize=(8, 8))
+    plt.axis('off')
+    plt.show()
 
 def find_start(arr):
     row = len(arr)
@@ -63,6 +70,7 @@ def find_shortest_bfs_path(arr, start):
         flags[first[0]][first[1]] = '1'
         if arr[first[0]][first[1]] == 'B':
             backtrack(first, start, back, arr)
+            show_arr(arr)
             break
         adjacent_cells = get_adjacent_cells(first, flags, arr)
         frontier += adjacent_cells
