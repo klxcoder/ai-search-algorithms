@@ -53,14 +53,12 @@ def find_shortest_bfs_path(arr, start):
     cost = 0
     while len(frontier) != 0:
         first = frontier.pop(0)
-        print('Will explore from ', first)
         adjacent_cells = get_adjacent_cells(first, flags, arr)
-        print('adjacent_cells = ', adjacent_cells)
+        print(first, '->', adjacent_cells)
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
     print_arr(arr)
     start = find_start(arr)
-    print(start)
     shortest_bfs_path = find_shortest_bfs_path(arr, start)
     print(shortest_bfs_path)
