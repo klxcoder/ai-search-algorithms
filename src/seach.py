@@ -31,6 +31,20 @@ def get_flags(arr):
         flags.append(row)
     return flags
 
+def get_adjacent_cells(cell, flags, arr):
+    row = cell[0]
+    col = cell[1]
+    n_row = len(flags)
+    n_col = len(flags[0])
+    adjacent_cells = []
+    for d_row, d_col in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
+        new_row = row + d_row
+        new_col = col + d_col
+        if new_row in range(n_row) and new_col in range(n_col):
+            if flags[new_row][new_col] == '0' and arr[new_row][new_col] != '#':
+                adjacent_cells.append((new_row, new_col))
+    return adjacent_cells
+
 def find_shortest_bfs_path(arr, start):
     row = len(arr)
     col = len(arr[0])
@@ -41,6 +55,8 @@ def find_shortest_bfs_path(arr, start):
     while len(frontier) != 0:
         first = frontier.pop(0)
         print('Will explore from ', first)
+        adjacent_cells = get_adjacent_cells(first, flags, arr)
+        print('adjacent_cells = ', adjacent_cells)
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze1.txt")
