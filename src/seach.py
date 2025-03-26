@@ -20,10 +20,10 @@ bfs will use queue (deque with popleft)
 
 """
 class BFS:
-    def __init__(self, arr, start):
+    def __init__(self, arr, start, frontier):
         self.arr = arr
         self.start = start
-        self.frontier = deque([self.start])
+        self.frontier = frontier
         self.back = {}
         self.n_row = len(self.arr)
         self.n_col = len(self.arr[0])
@@ -132,10 +132,10 @@ def show_arr(arr, path):
     plt.show()
 
 def test():
-    arr = read_arr("src/src0/maze2.txt")
+    arr = read_arr("src/src0/maze3.txt")
     print_arr(arr)
     start = find_start(arr)
-    bfs = BFS(arr, start)
+    bfs = BFS(arr, start, deque([start]))
     path = bfs.get_path()
     show_arr(arr, path)
 
