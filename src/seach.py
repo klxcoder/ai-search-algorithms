@@ -190,7 +190,7 @@ def test():
     test_xfs(arr, start, end, MazeSearch(start, BFSFrontier(start), arr, end), axs[0, 0], 'BFS')
     test_xfs(arr, start, end, MazeSearch(start, DFSFrontier(start), arr, end), axs[0, 1], 'DFS')
     test_xfs(arr, start, end, GreedyMazeSearch(start, AStarFrontier(start), arr, end), axs[1, 0], 'Greedy')
-    test_xfs(arr, start, end, GreedyMazeSearch(start, AStarFrontier(start), arr, end), axs[1, 1], 'A*')
+    test_xfs(arr, start, end, AStarMazeSearch(start, AStarFrontier(start), arr, end), axs[1, 1], 'A*')
     
     plt.tight_layout()
     plt.show()
