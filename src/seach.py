@@ -40,7 +40,15 @@ class DFSFrontier(Frontier):
     def pop(self):
         return self.frontier.pop()
 
-class MazeSearch:
+class Search():
+    def markVisited(self):
+        raise NotImplementedError
+    def isVisited(self) -> bool:
+        raise NotImplementedError
+    def isGoal(self) -> bool:
+        raise NotImplementedError
+
+class MazeSearch(Search):
     def __init__(self, arr, start, frontier):
         self.arr = arr
         self.start = start
