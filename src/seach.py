@@ -100,8 +100,6 @@ class MazeSearch(Search):
 
     def get_path(self):
         while not self.frontier.is_empty():
-            # popleft -> bfs
-            # pop -> dfs
             node = self.frontier.pop()
             self.mark_visited(node)
             if self.is_goal(node):
