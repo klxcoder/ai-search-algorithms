@@ -1,14 +1,6 @@
 import matplotlib.pyplot as plt
 from collections import deque
 
-def read_arr(path):
-    arr = []
-    with open(path, 'r') as file:
-        for line in file:
-            line = line.rstrip('\n') # removes only the trailing newline
-            arr.append(list(line))
-    return arr
-
 def show_arr(arr, start, end, path):
     n_row = len(arr)
     n_col = len(arr[0])
@@ -110,6 +102,14 @@ class BFS:
             self.frontier += adjacent_cells
             for cell in adjacent_cells:
                 self.back[cell] = first
+
+def read_arr(path):
+    arr = []
+    with open(path, 'r') as file:
+        for line in file:
+            line = line.rstrip('\n') # removes only the trailing newline
+            arr.append(list(line))
+    return arr
 
 def print_arr(arr):
     row = len(arr)
