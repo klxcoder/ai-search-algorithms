@@ -160,14 +160,17 @@ def show_arr(arr, path):
     plt.axis('off')
     plt.show()
 
+def test_xfs(start, arr, frontier):
+    bfs = MazeSearch(start, frontier, arr)
+    path = bfs.get_path()
+    show_arr(arr, path)
+
 def test():
     arr = read_arr("src/src0/maze3.txt")
     print_arr(arr)
     start = find_start(arr)
-    frontier = DFSFrontier(start)
-    bfs = MazeSearch(start, frontier, arr)
-    path = bfs.get_path()
-    show_arr(arr, path)
+    test_xfs(start, arr, BFSFrontier(start))
+    test_xfs(start, arr, DFSFrontier(start))
 
 if __name__ == "__main__":
     test()
