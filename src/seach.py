@@ -57,19 +57,6 @@ def get_flags(arr):
         flags.append(row)
     return flags
 
-def get_adjacent_cells(cell, flags, arr):
-    row, col = cell
-    n_row = len(flags)
-    n_col = len(flags[0])
-    adjacent_cells = []
-    for d_row, d_col in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
-        new_row = row + d_row
-        new_col = col + d_col
-        if new_row in range(n_row) and new_col in range(n_col):
-            if flags[new_row][new_col] == '0' and arr[new_row][new_col] != '#':
-                adjacent_cells.append((new_row, new_col))
-    return adjacent_cells
-
 class Node:
     def __init__(self, id, actions):
         self.id = id
@@ -79,7 +66,13 @@ class search should know nothing about arr?
 search is the typical class for any search algorithm
 it just find goal by expand nodes
 
+class BFS implement typical BFS
+    start from initial node
+    and expand nodes by taking actions
+    and visit unvisited node
+    end when find goal
 
+bfs will use queue (deque with popleft)
 
 """
 class BFS:
@@ -100,6 +93,19 @@ class BFS:
         path.append(self.start)
         return path
 
+    def get_adjacent_cells(self, cell, flags):
+        row, col = cell
+        n_row = len(flags)
+        n_col = len(flags[0])
+        adjacent_cells = []
+        for d_row, d_col in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
+            new_row = row + d_row
+            new_col = col + d_col
+            if new_row in range(n_row) and new_col in range(n_col):
+                if flags[new_row][new_col] == '0' and self.arr[new_row][new_col] != '#':
+                    adjacent_cells.append((new_row, new_col))
+        return adjacent_cells
+
     def run(self):
         flags = get_flags(self.arr)
         while len(self.frontier) != 0:
@@ -111,7 +117,7 @@ class BFS:
                 path = self.backtrack(first)
                 show_arr(self.arr, self.start, first, path)
                 break
-            adjacent_cells = get_adjacent_cells(first, flags, self.arr)
+            adjacent_cells = self.get_adjacent_cells(first, flags)
             self.frontier += adjacent_cells
             for cell in adjacent_cells:
                 self.back[cell] = first
