@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 from collections import deque
+import heapq
 
 class Frontier:
     def is_empty(self) -> bool:
         raise NotImplementedError
-    def push(self, node):
+    def push(self, node, cost=None):
         raise NotImplementedError
     def pop(self):
         raise NotImplementedError
@@ -16,7 +17,7 @@ class BFSFrontier(Frontier):
     def is_empty(self):
         return len(self.frontier) == 0
 
-    def push(self, node):
+    def push(self, node, cost=None):
         self.frontier.append(node)
 
     def pop(self):
@@ -29,11 +30,25 @@ class DFSFrontier(Frontier):
     def is_empty(self):
         return len(self.frontier) == 0
 
-    def push(self, node):
+    def push(self, node, cost=None):
         self.frontier.append(node)
 
     def pop(self):
         return self.frontier.pop()
+
+# class AStarFrontier(Frontier):
+#     def __init__(self, start, start_cost=0):
+#         self.frontier = deque([start_cost, start])
+#         heapq.heapify(self.frontier)
+    
+#     def is_empty(self):
+#         return len(self.frontier) == 0
+
+#     def push(self, node, cost):
+#         heapq.heappush(self.frontier, (cost, node))
+
+#     def pop(self):
+#         return heapq.heappop(self.frontier)[1]
 
 class Search():
     def __init__(self, start, frontier):
@@ -166,6 +181,7 @@ def test():
     start = find_start(arr)
     test_xfs(start, arr, BFSFrontier(start))
     test_xfs(start, arr, DFSFrontier(start))
+    # test_xfs(start, arr, AStarFrontier(start, 0))
 
 if __name__ == "__main__":
     test()
