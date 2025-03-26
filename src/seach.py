@@ -1,32 +1,6 @@
 import matplotlib.pyplot as plt
 from collections import deque
 
-def show_arr(arr, path):
-    n_row = len(arr)
-    n_col = len(arr[0])
-    maze = []
-    for r in range(n_row):
-        row = []
-        for c in range(n_col):
-            if arr[r][c] == '#':
-                row.append(1)
-            else:
-                row.append(0)
-        maze.append(row)
-    plt.figure(figsize=(8, 8))
-    plt.imshow(maze, cmap='gray_r')
-
-    if path:
-        path_x, path_y = zip(*path)
-        plt.plot(path_y, path_x, color='red', linewidth=3)  # Shortest path in red
-
-    end = path[0]
-    start = path[-1]
-
-    plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
-    plt.axis('off')
-    plt.show()
-
 class Node:
     def __init__(self, id, actions):
         self.id = id
@@ -132,6 +106,32 @@ def find_start(arr):
             if arr[r][c] == "A":
                 return (r, c)
     return None
+
+def show_arr(arr, path):
+    n_row = len(arr)
+    n_col = len(arr[0])
+    maze = []
+    for r in range(n_row):
+        row = []
+        for c in range(n_col):
+            if arr[r][c] == '#':
+                row.append(1)
+            else:
+                row.append(0)
+        maze.append(row)
+    plt.figure(figsize=(8, 8))
+    plt.imshow(maze, cmap='gray_r')
+
+    if path:
+        path_x, path_y = zip(*path)
+        plt.plot(path_y, path_x, color='red', linewidth=3)  # Shortest path in red
+
+    end = path[0]
+    start = path[-1]
+
+    plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
+    plt.axis('off')
+    plt.show()
 
 def test():
     arr = read_arr("src/src0/maze2.txt")
