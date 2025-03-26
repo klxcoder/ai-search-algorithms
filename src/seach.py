@@ -41,6 +41,8 @@ class DFSFrontier(Frontier):
         return self.frontier.pop()
 
 class Search():
+    def __init__(self):
+        self.back = {}
     def _mark_visited(self, node):
         raise NotImplementedError
     def _is_visited(self) -> bool:
@@ -73,10 +75,10 @@ class Search():
 
 class MazeSearch(Search):
     def __init__(self, arr, start, frontier):
+        super().__init__()
         self.arr = arr
         self.start = start
         self.frontier = frontier
-        self.back = {}
         self.n_row = len(self.arr)
         self.n_col = len(self.arr[0])
         self.flags = self.__get_flags()
