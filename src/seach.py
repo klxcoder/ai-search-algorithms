@@ -81,6 +81,7 @@ class BFS:
         self.start = start
         self.frontier = deque([self.start])
         self.back = {}
+        self.flags = get_flags(arr)
 
     def backtrack(self, cell):
         path = []
@@ -93,31 +94,33 @@ class BFS:
         path.append(self.start)
         return path
 
-    def get_adjacent_cells(self, cell, flags):
+    def isVisited(self, cell):
+        return self.flags[cell[0]][cell[1]] == '1'
+
+    def get_adjacent_cells(self, cell):
         row, col = cell
-        n_row = len(flags)
-        n_col = len(flags[0])
+        n_row = len(self.arr)
+        n_col = len(self.arr[0])
         adjacent_cells = []
         for d_row, d_col in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
             new_row = row + d_row
             new_col = col + d_col
             if new_row in range(n_row) and new_col in range(n_col):
-                if flags[new_row][new_col] == '0' and self.arr[new_row][new_col] != '#':
+                if not self.isVisited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
                     adjacent_cells.append((new_row, new_col))
         return adjacent_cells
 
     def run(self):
-        flags = get_flags(self.arr)
         while len(self.frontier) != 0:
             # popleft -> bfs
             # pop -> dfs
             first = self.frontier.popleft()
-            flags[first[0]][first[1]] = '1'
+            self.flags[first[0]][first[1]] = '1'
             if self.arr[first[0]][first[1]] == 'B':
                 path = self.backtrack(first)
                 show_arr(self.arr, self.start, first, path)
                 break
-            adjacent_cells = self.get_adjacent_cells(first, flags)
+            adjacent_cells = self.get_adjacent_cells(first)
             self.frontier += adjacent_cells
             for cell in adjacent_cells:
                 self.back[cell] = first
