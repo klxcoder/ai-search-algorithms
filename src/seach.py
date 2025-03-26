@@ -36,19 +36,19 @@ class DFSFrontier(Frontier):
     def pop(self):
         return self.frontier.pop()
 
-# class AStarFrontier(Frontier):
-#     def __init__(self, start, start_cost=0):
-#         self.frontier = deque([start_cost, start])
-#         heapq.heapify(self.frontier)
+class AStarFrontier(Frontier):
+    def __init__(self, start, start_cost=0):
+        self.frontier = [(start_cost, start)]
+        heapq.heapify(self.frontier)
     
-#     def is_empty(self):
-#         return len(self.frontier) == 0
+    def is_empty(self):
+        return len(self.frontier) == 0
 
-#     def push(self, node, cost):
-#         heapq.heappush(self.frontier, (cost, node))
+    def push(self, node, cost):
+        heapq.heappush(self.frontier, (cost, node))
 
-#     def pop(self):
-#         return heapq.heappop(self.frontier)[1]
+    def pop(self):
+        return heapq.heappop(self.frontier)[1]
 
 class Search():
     def __init__(self, start, frontier):
@@ -73,6 +73,8 @@ class Search():
         path.insert(0, save_node)
         path.append(self.start)
         return path
+    def __calculate_cost(self, node):
+        return 0
     def get_path(self):
         while not self.frontier.is_empty():
             node = self.frontier.pop()
@@ -82,7 +84,8 @@ class Search():
                 return path
             adjacent_nodes = self._get_adjacent_nodes(node)
             for next_node in adjacent_nodes:
-                self.frontier.push(next_node)
+                cost = self.__calculate_cost(next_node)
+                self.frontier.push(next_node, cost)
                 self.back[next_node] = node
 
 class MazeSearch(Search):
@@ -135,12 +138,12 @@ def print_arr(arr):
     for r in range(row):
         print(arr[r])
 
-def find_start(arr):
+def find_cell(arr, value):
     row = len(arr)
     col = len(arr[0])
     for r in range(row):
         for c in range(col):
-            if arr[r][c] == "A":
+            if arr[r][c] == value:
                 return (r, c)
     return None
 
@@ -171,17 +174,18 @@ def show_arr(arr, path):
     plt.show()
 
 def test_xfs(start, arr, frontier):
-    bfs = MazeSearch(start, frontier, arr)
-    path = bfs.get_path()
+    search = MazeSearch(start, frontier, arr)
+    path = search.get_path()
     show_arr(arr, path)
 
 def test():
     arr = read_arr("src/src0/maze3.txt")
     print_arr(arr)
-    start = find_start(arr)
+    start = find_cell(arr, "A")
+    end = find_cell(arr, "B")
     test_xfs(start, arr, BFSFrontier(start))
     test_xfs(start, arr, DFSFrontier(start))
-    # test_xfs(start, arr, AStarFrontier(start, 0))
+    test_xfs(start, arr, AStarFrontier(start, 0))
 
 if __name__ == "__main__":
     test()
