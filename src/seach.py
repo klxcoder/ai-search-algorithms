@@ -72,6 +72,9 @@ class BFS:
         path.append(self.start)
         return path
 
+    def markVisited(self, cell):
+        self.flags[cell[0]][cell[1]] = '1'
+
     def isVisited(self, cell):
         return self.flags[cell[0]][cell[1]] == '1'
 
@@ -96,7 +99,7 @@ class BFS:
             # popleft -> bfs
             # pop -> dfs
             first = self.frontier.popleft()
-            self.flags[first[0]][first[1]] = '1'
+            self.markVisited(first)
             if self.isGoal(first):
                 path = self.backtrack(first)
                 show_arr(self.arr, self.start, first, path)
