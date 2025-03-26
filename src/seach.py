@@ -25,15 +25,15 @@ class BFS:
         self.start = start
         self.frontier = deque([self.start])
         self.back = {}
+        self.n_row = len(self.arr)
+        self.n_col = len(self.arr[0])
         self.flags = self.get_flags()
 
     def get_flags(self):
-        n_row = len(self.arr)
-        n_col = len(self.arr[0])
         flags = []
-        for r in range(n_row):
+        for r in range(self.n_row):
             row = []
-            for c in range(n_col):
+            for c in range(self.n_col):
                 row.append('0')
             flags.append(row)
         return flags
@@ -60,13 +60,11 @@ class BFS:
 
     def get_adjacent_cells(self, cell):
         row, col = cell
-        n_row = len(self.arr)
-        n_col = len(self.arr[0])
         adjacent_cells = []
         for d_row, d_col in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
             new_row = row + d_row
             new_col = col + d_col
-            if new_row in range(n_row) and new_col in range(n_col):
+            if new_row in range(self.n_row) and new_col in range(self.n_col):
                 if not self.isVisited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
                     adjacent_cells.append((new_row, new_col))
         return adjacent_cells
