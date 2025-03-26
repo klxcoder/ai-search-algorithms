@@ -100,22 +100,22 @@ class BFS:
     def __init__(self, arr, start):
         self.arr = arr
         self.start = start
+        self.frontier = deque([self.start])
 
     def run(self):
         flags = get_flags(self.arr)
-        frontier = deque([self.start])
         back = {}
-        while len(frontier) != 0:
+        while len(self.frontier) != 0:
             # popleft -> bfs
             # pop -> dfs
-            first = frontier.popleft()
+            first = self.frontier.popleft()
             flags[first[0]][first[1]] = '1'
             if self.arr[first[0]][first[1]] == 'B':
                 path = backtrack(first, self.start, back, self.arr)
                 show_arr(self.arr, self.start, first, path)
                 break
             adjacent_cells = get_adjacent_cells(first, flags, self.arr)
-            frontier += adjacent_cells
+            self.frontier += adjacent_cells
             for cell in adjacent_cells:
                 back[cell] = first
 
