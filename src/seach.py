@@ -43,7 +43,7 @@ class DFSFrontier(Frontier):
 class Search():
     def _mark_visited(self, node):
         raise NotImplementedError
-    def is_visited(self) -> bool:
+    def _is_visited(self) -> bool:
         raise NotImplementedError
     def is_goal(self) -> bool:
         raise NotImplementedError
@@ -93,7 +93,7 @@ class MazeSearch(Search):
     def _mark_visited(self, node):
         self.flags[node[0]][node[1]] = '1'
 
-    def is_visited(self, node):
+    def _is_visited(self, node):
         return self.flags[node[0]][node[1]] == '1'
 
     def is_goal(self, node):
@@ -106,7 +106,7 @@ class MazeSearch(Search):
             new_row = row + d_row
             new_col = col + d_col
             if new_row in range(self.n_row) and new_col in range(self.n_col):
-                if not self.is_visited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
+                if not self._is_visited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
                     adjacent_nodes.append((new_row, new_col))
         return adjacent_nodes
 
