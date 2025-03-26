@@ -94,7 +94,7 @@ class BFS:
                     adjacent_cells.append((new_row, new_col))
         return adjacent_cells
 
-    def run(self):
+    def get_path(self):
         while len(self.frontier) != 0:
             # popleft -> bfs
             # pop -> dfs
@@ -135,7 +135,7 @@ def test():
     print_arr(arr)
     start = find_start(arr)
     bfs = BFS(arr, start)
-    path = bfs.run()
+    path = bfs.get_path()
     show_arr(arr, path)
 
 if __name__ == "__main__":
