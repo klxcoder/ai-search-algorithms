@@ -37,15 +37,6 @@ def show_arr(arr, start, end, path):
     plt.axis('off')
     plt.show()
 
-def find_start(arr):
-    row = len(arr)
-    col = len(arr[0])
-    for r in range(row):
-        for c in range(col):
-            if arr[r][c] == "A":
-                return (r, c)
-    return None
-
 class Node:
     def __init__(self, id, actions):
         self.id = id
@@ -124,6 +115,15 @@ class BFS:
             self.frontier += adjacent_cells
             for cell in adjacent_cells:
                 self.back[cell] = first
+
+def find_start(arr):
+    row = len(arr)
+    col = len(arr[0])
+    for r in range(row):
+        for c in range(col):
+            if arr[r][c] == "A":
+                return (r, c)
+    return None
 
 def test():
     arr = read_arr("src/src0/maze2.txt")
