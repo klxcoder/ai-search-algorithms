@@ -7,10 +7,12 @@ class Node:
         self.actions = actions
 
 class Frontier:
+    def is_empty(self) -> bool:
+        raise NotImplementedError
     def push(self, node):
-        pass
+        raise NotImplementedError
     def pop(self):
-        pass
+        raise NotImplementedError
     
 class BFSFrontier(Frontier):
     def __init__(self, start):
