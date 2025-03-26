@@ -73,15 +73,15 @@ class BFS:
         while len(self.frontier) != 0:
             # popleft -> bfs
             # pop -> dfs
-            first = self.frontier.popleft()
-            self.markVisited(first)
-            if self.isGoal(first):
-                path = self.backtrack(first)
+            cell = self.frontier.popleft()
+            self.markVisited(cell)
+            if self.isGoal(cell):
+                path = self.backtrack(cell)
                 return path
-            adjacent_cells = self.get_adjacent_cells(first)
+            adjacent_cells = self.get_adjacent_cells(cell)
             self.frontier += adjacent_cells
-            for cell in adjacent_cells:
-                self.back[cell] = first
+            for next_cell in adjacent_cells:
+                self.back[next_cell] = cell
 
 def read_arr(path):
     arr = []
