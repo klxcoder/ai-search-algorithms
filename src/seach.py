@@ -76,7 +76,7 @@ class Search():
                 self.back[next_node] = node
 
 class MazeSearch(Search):
-    def __init__(self, arr, start, frontier):
+    def __init__(self, start, frontier, arr):
         super().__init__(start, frontier)
         self.arr = arr
         self.n_row = len(self.arr)
@@ -165,7 +165,7 @@ def test():
     print_arr(arr)
     start = find_start(arr)
     frontier = DFSFrontier(start)
-    bfs = MazeSearch(arr, start, frontier)
+    bfs = MazeSearch(start, frontier, arr)
     path = bfs.get_path()
     show_arr(arr, path)
 
