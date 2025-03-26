@@ -41,7 +41,7 @@ class DFSFrontier(Frontier):
         return self.frontier.pop()
 
 class Search():
-    def mark_visited(self):
+    def _mark_visited(self, node):
         raise NotImplementedError
     def is_visited(self) -> bool:
         raise NotImplementedError
@@ -62,7 +62,7 @@ class Search():
     def get_path(self):
         while not self.frontier.is_empty():
             node = self.frontier.pop()
-            self.mark_visited(node)
+            self._mark_visited(node)
             if self.is_goal(node):
                 path = self.__backtrack(node)
                 return path
@@ -90,7 +90,7 @@ class MazeSearch(Search):
             flags.append(row)
         return flags
 
-    def mark_visited(self, node):
+    def _mark_visited(self, node):
         self.flags[node[0]][node[1]] = '1'
 
     def is_visited(self, node):
