@@ -41,11 +41,11 @@ class DFSFrontier(Frontier):
         return self.frontier.pop()
 
 class Search():
-    def markVisited(self):
+    def mark_visited(self):
         raise NotImplementedError
-    def isVisited(self) -> bool:
+    def is_visited(self) -> bool:
         raise NotImplementedError
-    def isGoal(self) -> bool:
+    def is_goal(self) -> bool:
         raise NotImplementedError
 
 class MazeSearch(Search):
@@ -78,13 +78,13 @@ class MazeSearch(Search):
         path.append(self.start)
         return path
 
-    def markVisited(self, cell):
+    def mark_visited(self, cell):
         self.flags[cell[0]][cell[1]] = '1'
 
-    def isVisited(self, cell):
+    def is_visited(self, cell):
         return self.flags[cell[0]][cell[1]] == '1'
 
-    def isGoal(self, cell):
+    def is_goal(self, cell):
         return self.arr[cell[0]][cell[1]] == 'B'
 
     def get_adjacent_cells(self, cell):
@@ -94,7 +94,7 @@ class MazeSearch(Search):
             new_row = row + d_row
             new_col = col + d_col
             if new_row in range(self.n_row) and new_col in range(self.n_col):
-                if not self.isVisited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
+                if not self.is_visited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
                     adjacent_cells.append((new_row, new_col))
         return adjacent_cells
 
@@ -103,8 +103,8 @@ class MazeSearch(Search):
             # popleft -> bfs
             # pop -> dfs
             cell = self.frontier.pop()
-            self.markVisited(cell)
-            if self.isGoal(cell):
+            self.mark_visited(cell)
+            if self.is_goal(cell):
                 path = self.backtrack(cell)
                 return path
             adjacent_cells = self.get_adjacent_cells(cell)
