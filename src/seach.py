@@ -70,20 +70,6 @@ def get_adjacent_cells(cell, flags, arr):
                 adjacent_cells.append((new_row, new_col))
     return adjacent_cells
 
-def backtrack(cell, start, back, arr):
-    path = []
-    save_cell = cell
-    while cell != start:
-        path.append(cell)
-        cell = back[cell]
-    path.pop(0)
-    for p in path:
-        arr[p[0]][p[1]] = '*'
-    print_arr(arr)
-    path.insert(0, save_cell)
-    path.append(start)
-    return path
-
 class Node:
     def __init__(self, id, actions):
         self.id = id
@@ -103,6 +89,20 @@ class BFS:
         self.frontier = deque([self.start])
         self.back = {}
 
+    def backtrack(self, cell, start, back, arr):
+        path = []
+        save_cell = cell
+        while cell != start:
+            path.append(cell)
+            cell = back[cell]
+        path.pop(0)
+        for p in path:
+            arr[p[0]][p[1]] = '*'
+        print_arr(arr)
+        path.insert(0, save_cell)
+        path.append(start)
+        return path
+
     def run(self):
         flags = get_flags(self.arr)
         while len(self.frontier) != 0:
@@ -111,7 +111,7 @@ class BFS:
             first = self.frontier.popleft()
             flags[first[0]][first[1]] = '1'
             if self.arr[first[0]][first[1]] == 'B':
-                path = backtrack(first, self.start, self.back, self.arr)
+                path = self.backtrack(first, self.start, self.back, self.arr)
                 show_arr(self.arr, self.start, first, path)
                 break
             adjacent_cells = get_adjacent_cells(first, flags, self.arr)
