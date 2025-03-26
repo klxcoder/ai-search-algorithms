@@ -9,11 +9,6 @@ def read_arr(path):
             arr.append(list(line))
     return arr
 
-def print_arr(arr):
-    row = len(arr)
-    for r in range(row):
-        print(arr[r])
-
 def show_arr(arr, start, end, path):
     n_row = len(arr)
     n_col = len(arr[0])
@@ -115,6 +110,11 @@ class BFS:
             self.frontier += adjacent_cells
             for cell in adjacent_cells:
                 self.back[cell] = first
+
+def print_arr(arr):
+    row = len(arr)
+    for r in range(row):
+        print(arr[r])
 
 def find_start(arr):
     row = len(arr)
