@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from collections import deque
 
-def show_arr(arr, start, end, path):
+def show_arr(arr, path):
     n_row = len(arr)
     n_col = len(arr[0])
     maze = []
@@ -20,7 +20,7 @@ def show_arr(arr, start, end, path):
         path_x, path_y = zip(*path)
         plt.plot(path_y, path_x, color='red', linewidth=3)  # Shortest path in red
 
-    plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
+    # plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
     plt.axis('off')
     plt.show()
 
@@ -102,8 +102,7 @@ class BFS:
             self.markVisited(first)
             if self.isGoal(first):
                 path = self.backtrack(first)
-                show_arr(self.arr, self.start, first, path)
-                break
+                return path
             adjacent_cells = self.get_adjacent_cells(first)
             self.frontier += adjacent_cells
             for cell in adjacent_cells:
@@ -136,7 +135,8 @@ def test():
     print_arr(arr)
     start = find_start(arr)
     bfs = BFS(arr, start)
-    bfs.run()
+    path = bfs.run()
+    show_arr(arr, path)
 
 if __name__ == "__main__":
     test()
