@@ -155,7 +155,7 @@ def find_cell(arr, value):
                 return (r, c)
     return None
 
-def show_arr(arr, path):
+def show_arr(arr, start, end, path):
     n_row = len(arr)
     n_col = len(arr[0])
     maze = []
@@ -173,27 +173,24 @@ def show_arr(arr, path):
     if path:
         path_x, path_y = zip(*path)
         plt.plot(path_y, path_x, color='red', linewidth=3)  # Shortest path in red
-
-    end = path[0]
-    start = path[-1]
-
+    
     plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
     plt.axis('off')
     plt.show()
 
-def test_xfs(arr, search):
+def test_xfs(arr, start, end, search):
     path = search.get_path()
-    show_arr(arr, path)
+    show_arr(arr, start, end, path)
 
 def test():
-    arr = read_arr("src/src0/maze3.txt")
+    arr = read_arr("src/src0/maze4.txt")
     print_arr(arr)
     start = find_cell(arr, "A")
     end = find_cell(arr, "B")
-    test_xfs(arr, MazeSearch(start, BFSFrontier(start), arr, end))
-    test_xfs(arr, MazeSearch(start, DFSFrontier(start), arr, end))
-    test_xfs(arr, GreedyMazeSearch(start, AStarFrontier(start), arr, end))
-    test_xfs(arr, AStarMazeSearch(start, AStarFrontier(start), arr, end))
+    test_xfs(arr, start, end, MazeSearch(start, BFSFrontier(start), arr, end))
+    test_xfs(arr, start, end, MazeSearch(start, DFSFrontier(start), arr, end))
+    test_xfs(arr, start, end, GreedyMazeSearch(start, AStarFrontier(start), arr, end))
+    test_xfs(arr, start, end, AStarMazeSearch(start, AStarFrontier(start), arr, end))
 
 if __name__ == "__main__":
     test()
