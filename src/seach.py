@@ -75,6 +75,9 @@ class BFS:
     def isVisited(self, cell):
         return self.flags[cell[0]][cell[1]] == '1'
 
+    def isGoal(self, cell):
+        return self.arr[cell[0]][cell[1]] == 'B'
+
     def get_adjacent_cells(self, cell):
         row, col = cell
         n_row = len(self.arr)
@@ -94,7 +97,7 @@ class BFS:
             # pop -> dfs
             first = self.frontier.popleft()
             self.flags[first[0]][first[1]] = '1'
-            if self.arr[first[0]][first[1]] == 'B':
+            if self.isGoal(first):
                 path = self.backtrack(first)
                 show_arr(self.arr, self.start, first, path)
                 break
