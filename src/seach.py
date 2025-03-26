@@ -47,6 +47,16 @@ class Search():
         raise NotImplementedError
     def is_goal(self) -> bool:
         raise NotImplementedError
+    def backtrack(self, node):
+        path = []
+        save_node = node
+        while node != self.start:
+            path.append(node)
+            node = self.back[node]
+        path.pop(0)
+        path.insert(0, save_node)
+        path.append(self.start)
+        return path
 
 class MazeSearch(Search):
     def __init__(self, arr, start, frontier):
@@ -66,17 +76,6 @@ class MazeSearch(Search):
                 row.append('0')
             flags.append(row)
         return flags
-
-    def backtrack(self, node):
-        path = []
-        save_node = node
-        while node != self.start:
-            path.append(node)
-            node = self.back[node]
-        path.pop(0)
-        path.insert(0, save_node)
-        path.append(self.start)
-        return path
 
     def mark_visited(self, node):
         self.flags[node[0]][node[1]] = '1'
