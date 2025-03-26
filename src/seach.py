@@ -84,27 +84,39 @@ def backtrack(cell, start, back, arr):
     path.append(start)
     return path
 
-def find_shortest_bfs_path(arr, start):
-    flags = get_flags(arr)
-    frontier = deque([start])
-    back = {}
-    while len(frontier) != 0:
-        # popleft -> bfs
-        # pop -> dfs
-        first = frontier.popleft()
-        flags[first[0]][first[1]] = '1'
-        if arr[first[0]][first[1]] == 'B':
-            path = backtrack(first, start, back, arr)
-            show_arr(arr, start, first, path)
-            break
-        adjacent_cells = get_adjacent_cells(first, flags, arr)
-        frontier += adjacent_cells
-        for cell in adjacent_cells:
-            back[cell] = first
+class Node:
+    def __init__(self, id, actions):
+        self.id = id
+        self.actions = actions
+
+class Search:
+    def __init__(self, arr, start):
+        self.arr = arr
+        self.start = start
+
+    def run(self):
+        flags = get_flags(self.arr)
+        frontier = deque([self.start])
+        back = {}
+        while len(frontier) != 0:
+            # popleft -> bfs
+            # pop -> dfs
+            first = frontier.popleft()
+            flags[first[0]][first[1]] = '1'
+            if self.arr[first[0]][first[1]] == 'B':
+                path = backtrack(first, self.start, back, self.arr)
+                show_arr(self.arr, self.start, first, path)
+                break
+            adjacent_cells = get_adjacent_cells(first, flags, self.arr)
+            frontier += adjacent_cells
+            for cell in adjacent_cells:
+                back[cell] = first
+
 
 if __name__ == "__main__":
     arr = read_arr("src/src0/maze2.txt")
     print_arr(arr)
     start = find_start(arr)
     print('-'*5*len(arr[0]))
-    find_shortest_bfs_path(arr, start)
+    search = Search(arr, start)
+    search.run()
