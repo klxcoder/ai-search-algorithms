@@ -23,15 +23,9 @@ class BFSFrontier(Frontier):
     def pop(self):
         return self.frontier.popleft()
 
-class DFSFrontier(Frontier):
+class DFSFrontier(BFSFrontier):
     def __init__(self, start):
         self.frontier = deque([start])
-    
-    def is_empty(self):
-        return len(self.frontier) == 0
-
-    def push(self, node, cost=None):
-        self.frontier.append(node)
 
     def pop(self):
         return self.frontier.pop()
