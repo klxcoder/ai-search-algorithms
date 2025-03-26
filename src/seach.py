@@ -47,6 +47,8 @@ class Search():
         raise NotImplementedError
     def is_goal(self) -> bool:
         raise NotImplementedError
+    def get_adjacent_nodes(self, node):
+        raise NotImplementedError
     def backtrack(self, node):
         path = []
         save_node = node
