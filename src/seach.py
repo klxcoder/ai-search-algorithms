@@ -155,42 +155,43 @@ def find_cell(arr, value):
                 return (r, c)
     return None
 
-def show_arr(arr, start, end, path):
+def show_arr_subplot(arr, start, end, path, ax, title=""):
     n_row = len(arr)
     n_col = len(arr[0])
     maze = []
     for r in range(n_row):
         row = []
         for c in range(n_col):
-            if arr[r][c] == '#':
-                row.append(1)
-            else:
-                row.append(0)
+            row.append(1 if arr[r][c] == '#' else 0)
         maze.append(row)
-    plt.figure(figsize=(8, 8))
-    plt.imshow(maze, cmap='gray_r')
+    ax.imshow(maze, cmap='gray_r')
 
     if path:
         path_x, path_y = zip(*path)
-        plt.plot(path_y, path_x, color='red', linewidth=3)  # Shortest path in red
-    
-    plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
-    plt.axis('off')
-    plt.show()
+        ax.plot(path_y, path_x, color='red', linewidth=3)  # path in red
+    ax.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)
+    ax.set_title(title)
+    ax.axis('off')
 
-def test_xfs(arr, start, end, search):
+def test_xfs(arr, start, end, search, ax, title):
     path = search.get_path()
-    show_arr(arr, start, end, path)
+    show_arr_subplot(arr, start, end, path, ax, title)
 
 def test():
     arr = read_arr("src/src0/maze4.txt")
     print_arr(arr)
     start = find_cell(arr, "A")
     end = find_cell(arr, "B")
-    test_xfs(arr, start, end, MazeSearch(start, BFSFrontier(start), arr, end))
-    test_xfs(arr, start, end, MazeSearch(start, DFSFrontier(start), arr, end))
-    test_xfs(arr, start, end, GreedyMazeSearch(start, AStarFrontier(start), arr, end))
-    test_xfs(arr, start, end, AStarMazeSearch(start, AStarFrontier(start), arr, end))
+
+    fig, axs = plt.subplots(2, 2, figsize=(8, 8))
+
+    test_xfs(arr, start, end, MazeSearch(start, BFSFrontier(start), arr, end), axs[0, 0], 'BFS')
+    test_xfs(arr, start, end, MazeSearch(start, DFSFrontier(start), arr, end), axs[0, 1], 'DFS')
+    test_xfs(arr, start, end, GreedyMazeSearch(start, AStarFrontier(start), arr, end), axs[1, 0], 'Greedy')
+    test_xfs(arr, start, end, GreedyMazeSearch(start, AStarFrontier(start), arr, end), axs[1, 1], 'A*')
+    
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == "__main__":
     test()
