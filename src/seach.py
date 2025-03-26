@@ -40,21 +40,7 @@ class DFSFrontier(Frontier):
     def pop(self):
         return self.frontier.pop()
 
-"""
-class search should know nothing about arr?
-search is the typical class for any search algorithm
-it just find goal by expand nodes
-
-class BFS implement typical BFS
-    start from initial node
-    and expand nodes by taking actions
-    and visit unvisited node
-    end when find goal
-
-bfs will use queue (deque with popleft)
-
-"""
-class BFS:
+class MazeSearch:
     def __init__(self, arr, start, frontier):
         self.arr = arr
         self.start = start
@@ -170,8 +156,8 @@ def test():
     arr = read_arr("src/src0/maze3.txt")
     print_arr(arr)
     start = find_start(arr)
-    frontier = BFSFrontier(start)
-    bfs = BFS(arr, start, frontier)
+    frontier = DFSFrontier(start)
+    bfs = MazeSearch(arr, start, frontier)
     path = bfs.get_path()
     show_arr(arr, path)
 
