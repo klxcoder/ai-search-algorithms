@@ -89,18 +89,18 @@ class BFS:
         self.frontier = deque([self.start])
         self.back = {}
 
-    def backtrack(self, cell, start, back, arr):
+    def backtrack(self, cell):
         path = []
         save_cell = cell
-        while cell != start:
+        while cell != self.start:
             path.append(cell)
-            cell = back[cell]
+            cell = self.back[cell]
         path.pop(0)
         for p in path:
-            arr[p[0]][p[1]] = '*'
-        print_arr(arr)
+            self.arr[p[0]][p[1]] = '*'
+        print_arr(self.arr)
         path.insert(0, save_cell)
-        path.append(start)
+        path.append(self.start)
         return path
 
     def run(self):
@@ -111,7 +111,7 @@ class BFS:
             first = self.frontier.popleft()
             flags[first[0]][first[1]] = '1'
             if self.arr[first[0]][first[1]] == 'B':
-                path = self.backtrack(first, self.start, self.back, self.arr)
+                path = self.backtrack(first)
                 show_arr(self.arr, self.start, first, path)
                 break
             adjacent_cells = get_adjacent_cells(first, flags, self.arr)
@@ -119,11 +119,13 @@ class BFS:
             for cell in adjacent_cells:
                 self.back[cell] = first
 
-
-if __name__ == "__main__":
+def test():
     arr = read_arr("src/src0/maze2.txt")
     print_arr(arr)
     start = find_start(arr)
     print('-'*5*len(arr[0]))
     bfs = BFS(arr, start)
     bfs.run()
+
+if __name__ == "__main__":
+    test()
