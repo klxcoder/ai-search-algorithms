@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from collections import deque
 
 def read_arr(path):
     arr = []
@@ -85,10 +86,12 @@ def backtrack(cell, start, back, arr):
 
 def find_shortest_bfs_path(arr, start):
     flags = get_flags(arr)
-    frontier = [start]
+    frontier = deque([start])
     back = {}
     while len(frontier) != 0:
-        first = frontier.pop(0)
+        # popleft -> bfs
+        # pop -> dfs
+        first = frontier.popleft()
         flags[first[0]][first[1]] = '1'
         if arr[first[0]][first[1]] == 'B':
             path = backtrack(first, start, back, arr)
@@ -100,7 +103,7 @@ def find_shortest_bfs_path(arr, start):
             back[cell] = first
 
 if __name__ == "__main__":
-    arr = read_arr("src/src0/maze1.txt")
+    arr = read_arr("src/src0/maze2.txt")
     print_arr(arr)
     start = find_start(arr)
     print('-'*5*len(arr[0]))
