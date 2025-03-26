@@ -20,7 +20,10 @@ def show_arr(arr, path):
         path_x, path_y = zip(*path)
         plt.plot(path_y, path_x, color='red', linewidth=3)  # Shortest path in red
 
-    # plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
+    end = path[0]
+    start = path[-1]
+
+    plt.scatter([start[1], end[1]], [start[0], end[0]], c=['green', 'blue'], s=100)  # Start & end markers
     plt.axis('off')
     plt.show()
 
