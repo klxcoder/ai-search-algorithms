@@ -46,17 +46,6 @@ def find_start(arr):
                 return (r, c)
     return None
 
-def get_flags(arr):
-    n_row = len(arr)
-    n_col = len(arr[0])
-    flags = []
-    for r in range(n_row):
-        row = []
-        for c in range(n_col):
-            row.append('0')
-        flags.append(row)
-    return flags
-
 class Node:
     def __init__(self, id, actions):
         self.id = id
@@ -81,7 +70,18 @@ class BFS:
         self.start = start
         self.frontier = deque([self.start])
         self.back = {}
-        self.flags = get_flags(arr)
+        self.flags = self.get_flags()
+
+    def get_flags(self):
+        n_row = len(self.arr)
+        n_col = len(self.arr[0])
+        flags = []
+        for r in range(n_row):
+            row = []
+            for c in range(n_col):
+                row.append('0')
+            flags.append(row)
+        return flags
 
     def backtrack(self, cell):
         path = []
