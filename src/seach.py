@@ -59,6 +59,17 @@ class Search():
         path.insert(0, save_node)
         path.append(self.start)
         return path
+    def get_path(self):
+        while not self.frontier.is_empty():
+            node = self.frontier.pop()
+            self.mark_visited(node)
+            if self.is_goal(node):
+                path = self.backtrack(node)
+                return path
+            adjacent_nodes = self.get_adjacent_nodes(node)
+            for next_node in adjacent_nodes:
+                self.frontier.push(next_node)
+                self.back[next_node] = node
 
 class MazeSearch(Search):
     def __init__(self, arr, start, frontier):
@@ -98,18 +109,6 @@ class MazeSearch(Search):
                 if not self.is_visited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
                     adjacent_nodes.append((new_row, new_col))
         return adjacent_nodes
-
-    def get_path(self):
-        while not self.frontier.is_empty():
-            node = self.frontier.pop()
-            self.mark_visited(node)
-            if self.is_goal(node):
-                path = self.backtrack(node)
-                return path
-            adjacent_nodes = self.get_adjacent_nodes(node)
-            for next_node in adjacent_nodes:
-                self.frontier.push(next_node)
-                self.back[next_node] = node
 
 def read_arr(path):
     arr = []
