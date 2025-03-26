@@ -76,6 +76,8 @@ class Search():
                 return path
             adjacent_nodes = self._get_adjacent_nodes(node)
             for next_node in adjacent_nodes:
+                if next_node in self.costs:
+                    continue
                 step_cost = 1
                 new_cumulative_cost = self.costs[node] + step_cost
                 new_cost = self._calculate_cost(next_node, new_cumulative_cost)
