@@ -5,6 +5,39 @@ class Node:
     def __init__(self, id, actions):
         self.id = id
         self.actions = actions
+
+class Frontier:
+    def push(self, node):
+        pass
+    def pop(self):
+        pass
+    
+class BFSFrontier(Frontier):
+    def __init__(self, start):
+        self.frontier = deque([start])
+    
+    def is_empty(self):
+        return len(self.frontier) == 0
+
+    def push(self, node):
+        self.frontier.append(node)
+
+    def pop(self):
+        return self.frontier.popleft()
+
+class DFSFrontier(Frontier):
+    def __init__(self, start):
+        self.frontier = deque([start])
+    
+    def is_empty(self):
+        return len(self.frontier) == 0
+
+    def push(self, node):
+        self.frontier.append(node)
+
+    def pop(self):
+        return self.frontier.pop()
+
 """
 class search should know nothing about arr?
 search is the typical class for any search algorithm
@@ -70,17 +103,17 @@ class BFS:
         return adjacent_cells
 
     def get_path(self):
-        while len(self.frontier) != 0:
+        while not self.frontier.is_empty():
             # popleft -> bfs
             # pop -> dfs
-            cell = self.frontier.popleft()
+            cell = self.frontier.pop()
             self.markVisited(cell)
             if self.isGoal(cell):
                 path = self.backtrack(cell)
                 return path
             adjacent_cells = self.get_adjacent_cells(cell)
-            self.frontier += adjacent_cells
             for next_cell in adjacent_cells:
+                self.frontier.push(next_cell)
                 self.back[next_cell] = cell
 
 def read_arr(path):
@@ -135,7 +168,8 @@ def test():
     arr = read_arr("src/src0/maze3.txt")
     print_arr(arr)
     start = find_start(arr)
-    bfs = BFS(arr, start, deque([start]))
+    frontier = BFSFrontier(start)
+    bfs = BFS(arr, start, frontier)
     path = bfs.get_path()
     show_arr(arr, path)
 
