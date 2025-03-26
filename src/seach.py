@@ -59,12 +59,9 @@ class Search():
         raise NotImplementedError
     def __backtrack(self, node):
         path = []
-        save_node = node
         while node != self.start:
             path.append(node)
             node = self.back[node]
-        path.pop(0)
-        path.insert(0, save_node)
         path.append(self.start)
         return path
     def __calculate_cost(self, node):
