@@ -67,14 +67,14 @@ class MazeSearch(Search):
             flags.append(row)
         return flags
 
-    def backtrack(self, cell):
+    def backtrack(self, node):
         path = []
-        save_cell = cell
-        while cell != self.start:
-            path.append(cell)
-            cell = self.back[cell]
+        save_node = node
+        while node != self.start:
+            path.append(node)
+            node = self.back[node]
         path.pop(0)
-        path.insert(0, save_cell)
+        path.insert(0, save_node)
         path.append(self.start)
         return path
 
@@ -87,16 +87,16 @@ class MazeSearch(Search):
     def is_goal(self, cell):
         return self.arr[cell[0]][cell[1]] == 'B'
 
-    def get_adjacent_cells(self, cell):
+    def get_adjacent_nodes(self, cell):
         row, col = cell
-        adjacent_cells = []
+        adjacent_nodes = []
         for d_row, d_col in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
             new_row = row + d_row
             new_col = col + d_col
             if new_row in range(self.n_row) and new_col in range(self.n_col):
                 if not self.is_visited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
-                    adjacent_cells.append((new_row, new_col))
-        return adjacent_cells
+                    adjacent_nodes.append((new_row, new_col))
+        return adjacent_nodes
 
     def get_path(self):
         while not self.frontier.is_empty():
@@ -107,8 +107,8 @@ class MazeSearch(Search):
             if self.is_goal(cell):
                 path = self.backtrack(cell)
                 return path
-            adjacent_cells = self.get_adjacent_cells(cell)
-            for next_cell in adjacent_cells:
+            adjacent_nodes = self.get_adjacent_nodes(cell)
+            for next_cell in adjacent_nodes:
                 self.frontier.push(next_cell)
                 self.back[next_cell] = cell
 
