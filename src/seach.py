@@ -52,7 +52,7 @@ class Search():
         self.costs = {start: 0}  # cost from start to node
     def _mark_visited(self, node):
         raise NotImplementedError
-    def _is_visited(self) -> bool:
+    def _is_visited(self, node) -> bool:
         raise NotImplementedError
     def _is_goal(self) -> bool:
         raise NotImplementedError
@@ -85,14 +85,13 @@ class Search():
         return []
 
 class MazeSearch(Search):
-    def __init__(self, start, frontier, arr, goal, search_type="astar"):
+    def __init__(self, start, frontier, arr, goal):
         super().__init__(start, frontier)
         self.arr = arr
         self.n_row = len(self.arr)
         self.n_col = len(self.arr[0])
         self.flags = self.__init_flags()
         self.goal = goal
-        self.search_type = search_type
 
     def __init_flags(self):
         flags = []
@@ -123,16 +122,16 @@ class MazeSearch(Search):
                     adjacent_nodes.append((new_row, new_col))
         return adjacent_nodes
 
-    # Override _calculate_cost to support Greedy and A* search
+class GreedyMazeSearch(MazeSearch):
     def _calculate_cost(self, node, g):
-        # Heuristic: Manhattan distance from node to goal
         h = abs(node[0] - self.goal[0]) + abs(node[1] - self.goal[1])
-        if self.search_type == "greedy":
-            return h  # Greedy uses only the heuristic
-        elif self.search_type == "astar":
-            return g + h  # A* uses the sum of path cost and heuristic
-        else:
-            return g + h  # Default to A* if search_type is unrecognized
+        return h
+    
+class AStarMazeSearch(MazeSearch):
+    def _calculate_cost(self, node, g):
+        # Use the sum of cumulative cost and heuristic
+        h = abs(node[0] - self.goal[0]) + abs(node[1] - self.goal[1])
+        return g + h
 
 def read_arr(path):
     arr = []
@@ -182,8 +181,7 @@ def show_arr(arr, path):
     plt.axis('off')
     plt.show()
 
-def test_xfs(start, arr, frontier, goal, search_type="astar"):
-    search = MazeSearch(start, frontier, arr, goal, search_type)
+def test_xfs(arr, search):
     path = search.get_path()
     show_arr(arr, path)
 
@@ -192,10 +190,10 @@ def test():
     print_arr(arr)
     start = find_cell(arr, "A")
     end = find_cell(arr, "B")
-    test_xfs(start, arr, BFSFrontier(start), end)
-    test_xfs(start, arr, DFSFrontier(start), end)
-    test_xfs(start, arr, AStarFrontier(start, 0), end, search_type="astar")
-    test_xfs(start, arr, AStarFrontier(start, 0), end, search_type="greedy")
+    test_xfs(arr, MazeSearch(start, BFSFrontier(start), arr, end))
+    test_xfs(arr, MazeSearch(start, DFSFrontier(start), arr, end))
+    test_xfs(arr, GreedyMazeSearch(start, AStarFrontier(start), arr, end))
+    test_xfs(arr, AStarMazeSearch(start, AStarFrontier(start), arr, end))
 
 if __name__ == "__main__":
     test()
