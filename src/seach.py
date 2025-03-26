@@ -49,6 +49,7 @@ class Search():
         self.start = start
         self.frontier = frontier
         self.back = {}
+        self.costs = {start: 0}  # cost from start to node
     def _mark_visited(self, node):
         raise NotImplementedError
     def _is_visited(self) -> bool:
@@ -64,7 +65,7 @@ class Search():
             node = self.back[node]
         path.append(self.start)
         return path
-    def __calculate_cost(self, node):
+    def _calculate_cost(self, node, cumulative_cost):
         return 0
     def get_path(self):
         while not self.frontier.is_empty():
@@ -75,19 +76,25 @@ class Search():
                 return path
             adjacent_nodes = self._get_adjacent_nodes(node)
             for next_node in adjacent_nodes:
-                cost = self.__calculate_cost(next_node)
-                self.frontier.push(next_node, cost)
+                step_cost = 1
+                new_cumulative_cost = self.costs[node] + step_cost
+                new_cost = self._calculate_cost(next_node, new_cumulative_cost)
+                self.frontier.push(next_node, new_cost)
                 self.back[next_node] = node
+                self.costs[next_node] = new_cumulative_cost
+        return []
 
 class MazeSearch(Search):
-    def __init__(self, start, frontier, arr):
+    def __init__(self, start, frontier, arr, goal, search_type="astar"):
         super().__init__(start, frontier)
         self.arr = arr
         self.n_row = len(self.arr)
         self.n_col = len(self.arr[0])
-        self.flags = self.__get_flags()
+        self.flags = self.__init_flags()
+        self.goal = goal
+        self.search_type = search_type
 
-    def __get_flags(self):
+    def __init_flags(self):
         flags = []
         for r in range(self.n_row):
             row = []
@@ -103,7 +110,7 @@ class MazeSearch(Search):
         return self.flags[node[0]][node[1]] == '1'
 
     def _is_goal(self, node):
-        return self.arr[node[0]][node[1]] == 'B'
+        return node == self.goal
 
     def _get_adjacent_nodes(self, node):
         row, col = node
@@ -115,6 +122,17 @@ class MazeSearch(Search):
                 if not self._is_visited((new_row, new_col)) and self.arr[new_row][new_col] != '#':
                     adjacent_nodes.append((new_row, new_col))
         return adjacent_nodes
+
+    # Override _calculate_cost to support Greedy and A* search
+    def _calculate_cost(self, node, g):
+        # Heuristic: Manhattan distance from node to goal
+        h = abs(node[0] - self.goal[0]) + abs(node[1] - self.goal[1])
+        if self.search_type == "greedy":
+            return h  # Greedy uses only the heuristic
+        elif self.search_type == "astar":
+            return g + h  # A* uses the sum of path cost and heuristic
+        else:
+            return g + h  # Default to A* if search_type is unrecognized
 
 def read_arr(path):
     arr = []
@@ -164,8 +182,8 @@ def show_arr(arr, path):
     plt.axis('off')
     plt.show()
 
-def test_xfs(start, arr, frontier):
-    search = MazeSearch(start, frontier, arr)
+def test_xfs(start, arr, frontier, goal, search_type="astar"):
+    search = MazeSearch(start, frontier, arr, goal, search_type)
     path = search.get_path()
     show_arr(arr, path)
 
@@ -174,9 +192,10 @@ def test():
     print_arr(arr)
     start = find_cell(arr, "A")
     end = find_cell(arr, "B")
-    test_xfs(start, arr, BFSFrontier(start))
-    test_xfs(start, arr, DFSFrontier(start))
-    test_xfs(start, arr, AStarFrontier(start, 0))
+    test_xfs(start, arr, BFSFrontier(start), end)
+    test_xfs(start, arr, DFSFrontier(start), end)
+    test_xfs(start, arr, AStarFrontier(start, 0), end, search_type="astar")
+    test_xfs(start, arr, AStarFrontier(start, 0), end, search_type="greedy")
 
 if __name__ == "__main__":
     test()
