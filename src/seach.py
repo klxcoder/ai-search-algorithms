@@ -79,9 +79,9 @@ class MazeSearch(Search):
         self.back = {}
         self.n_row = len(self.arr)
         self.n_col = len(self.arr[0])
-        self.flags = self.get_flags()
+        self.flags = self.__get_flags()
 
-    def get_flags(self):
+    def __get_flags(self):
         flags = []
         for r in range(self.n_row):
             row = []
