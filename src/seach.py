@@ -47,7 +47,7 @@ class Search():
         raise NotImplementedError
     def _is_goal(self) -> bool:
         raise NotImplementedError
-    def get_adjacent_nodes(self, node):
+    def _get_adjacent_nodes(self, node):
         raise NotImplementedError
     def __backtrack(self, node):
         path = []
@@ -66,7 +66,7 @@ class Search():
             if self._is_goal(node):
                 path = self.__backtrack(node)
                 return path
-            adjacent_nodes = self.get_adjacent_nodes(node)
+            adjacent_nodes = self._get_adjacent_nodes(node)
             for next_node in adjacent_nodes:
                 self.frontier.push(next_node)
                 self.back[next_node] = node
@@ -99,7 +99,7 @@ class MazeSearch(Search):
     def _is_goal(self, node):
         return self.arr[node[0]][node[1]] == 'B'
 
-    def get_adjacent_nodes(self, node):
+    def _get_adjacent_nodes(self, node):
         row, col = node
         adjacent_nodes = []
         for d_row, d_col in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
