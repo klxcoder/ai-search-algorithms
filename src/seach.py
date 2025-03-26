@@ -88,8 +88,15 @@ class Node:
     def __init__(self, id, actions):
         self.id = id
         self.actions = actions
+"""
+class search should know nothing about arr?
+search is the typical class for any search algorithm
+it just find goal by expand nodes
 
-class Search:
+
+
+"""
+class BFS:
     def __init__(self, arr, start):
         self.arr = arr
         self.start = start
@@ -118,5 +125,5 @@ if __name__ == "__main__":
     print_arr(arr)
     start = find_start(arr)
     print('-'*5*len(arr[0]))
-    search = Search(arr, start)
-    search.run()
+    bfs = BFS(arr, start)
+    bfs.run()
