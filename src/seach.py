@@ -96,9 +96,6 @@ class BFS:
             path.append(cell)
             cell = self.back[cell]
         path.pop(0)
-        for p in path:
-            self.arr[p[0]][p[1]] = '*'
-        print_arr(self.arr)
         path.insert(0, save_cell)
         path.append(self.start)
         return path
@@ -123,7 +120,6 @@ def test():
     arr = read_arr("src/src0/maze2.txt")
     print_arr(arr)
     start = find_start(arr)
-    print('-'*5*len(arr[0]))
     bfs = BFS(arr, start)
     bfs.run()
 
