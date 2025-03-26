@@ -49,7 +49,7 @@ class Search():
         raise NotImplementedError
     def get_adjacent_nodes(self, node):
         raise NotImplementedError
-    def backtrack(self, node):
+    def __backtrack(self, node):
         path = []
         save_node = node
         while node != self.start:
@@ -64,7 +64,7 @@ class Search():
             node = self.frontier.pop()
             self.mark_visited(node)
             if self.is_goal(node):
-                path = self.backtrack(node)
+                path = self.__backtrack(node)
                 return path
             adjacent_nodes = self.get_adjacent_nodes(node)
             for next_node in adjacent_nodes:
